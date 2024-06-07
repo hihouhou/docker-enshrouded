@@ -9,12 +9,12 @@ FROM debian:latest
 
 MAINTAINER hihouhou < hihouhou@hihouhou.com >
 
-ENV ENSHROUDED_VERSION 0.0.0
+ENV ENSHROUDED_VERSION 0.7.2.0
 
 # Update & install packages for grafana
 RUN dpkg --add-architecture i386 && \
     apt-get update && \
-    apt-get install -y lsb-release wget cabextract winbind xvfb
+    apt-get install -y lsb-release wget cabextract winbind xvfb lib32gcc-s1 lib32stdc++6 libsdl2-2.0-0
 
 RUN mkdir -pm755 /etc/apt/keyrings && \
     wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key && \
@@ -38,6 +38,6 @@ RUN wget https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz 
 
 WORKDIR /home/enshrouded/steam/enshrouded
 
-COPY enshrouded_server.json /home/enshrouded/steam/enshrouded/enshrouded_server.json
+COPY --chown=enshrouded enshrouded_server.json /home/enshrouded/steam/enshrouded/enshrouded_server.json
 
-CMD wine64 enshrouded_server.exe
+CMD wine enshrouded_server.exe
